@@ -1,0 +1,58 @@
+﻿@model t2s.Models.movimentacao
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>movimentacao</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dtInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtFim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtFim)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idContainerMovimentacao.nmNumeroCntr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idContainerMovimentacao.nmNumeroCntr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idStatusTipoMovimentacao.nmStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idStatusTipoMovimentacao.nmStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idNavioMovimentacao.nmNavio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idNavioMovimentacao.nmNavio)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idMovimentacao }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

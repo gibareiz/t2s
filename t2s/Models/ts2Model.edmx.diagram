@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2cff03dfb86b4e8f9ff52ced327a8e55" Name="Diagram1">
+        <EntityTypeShape EntityType="t2sModel.cliente" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="t2sModel.container" Width="1.5" PointX="10.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="t2sModel.movimentacao" Width="1.5" PointX="5.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="t2sModel.navio" Width="1.5" PointX="4.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="t2sModel.status" Width="1.5" PointX="0.875" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="t2sModel.fk_cliente_container" ManuallyRouted="false" />
+        <AssociationConnector Association="t2sModel.FK_categoria_container" ManuallyRouted="false" />
+        <AssociationConnector Association="t2sModel.FK_container_navio" ManuallyRouted="false" />
+        <AssociationConnector Association="t2sModel.FK_status_container" ManuallyRouted="false" />
+        <AssociationConnector Association="t2sModel.FK_tipo_container" ManuallyRouted="false" />
+        <AssociationConnector Association="t2sModel.FK_tipoMovimentacao_movimentacao1" />
+        <AssociationConnector Association="t2sModel.FK_container_navio1" />
+        <EntityTypeShape EntityType="t2sModel.vwMovimentacoes" Width="1.5" PointX="8.75" PointY="0.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

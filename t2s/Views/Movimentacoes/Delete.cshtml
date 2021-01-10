@@ -1,0 +1,68 @@
+﻿@model t2s.Models.movimentacao
+
+@{
+    ViewBag.Title = "Deletar";
+}
+
+<h2>Delete</h2>
+
+<h3>Tem certeza que deseja deletar essa movimentação?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idContainer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idContainerMovimentacao.nmNumeroCntr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idNavio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idNavioMovimentacao.nmNavio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idTipoMovimentacao)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idStatusTipoMovimentacao.nmStatus)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtInicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtInicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dtFim)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dtFim)
+        </dd>
+
+
+
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar a lista", "Index")
+        </div>
+    }
+</div>

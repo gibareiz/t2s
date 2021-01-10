@@ -1,0 +1,58 @@
+﻿@model t2s.Models.container
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>container</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nmNumeroCntr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nmNumeroCntr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idClienteContainer.nmCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idClienteContainer.nmCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idCategoriaContainer.nmStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idCategoriaContainer.nmStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idStatusContainer.nmStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idStatusContainer.nmStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idTipoContainer.nmStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idTipoContainer.nmStatus)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idContainer }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

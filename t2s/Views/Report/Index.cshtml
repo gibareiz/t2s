@@ -1,0 +1,43 @@
+﻿@model IEnumerable<t2s.Models.vwMovimentacoes>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.cliente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoMovimentacao)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.qtdeMovimentacoes)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.cliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipoMovimentacao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.qtdeMovimentacoes)
+            </td>
+
+        </tr>
+    }
+</table>
+
+<label>Exportações:</label>  @ViewBag.Exportacoes
+<br />
+<label>Importações:</label>  @ViewBag.Importacoes
+

@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="t2sModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nmCliente" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="container">
+          <Key>
+            <PropertyRef Name="idContainer" />
+          </Key>
+          <Property Name="idContainer" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idCliente" Type="int" Nullable="false" />
+          <Property Name="nmNumeroCntr" Type="char" MaxLength="11" Nullable="false" />
+          <Property Name="idTipo" Type="int" Nullable="false" />
+          <Property Name="idStatus" Type="int" Nullable="false" />
+          <Property Name="idCategoria" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="movimentacao">
+          <Key>
+            <PropertyRef Name="idMovimentacao" />
+          </Key>
+          <Property Name="idMovimentacao" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idContainer" Type="int" Nullable="false" />
+          <Property Name="idNavio" Type="int" Nullable="false" />
+          <Property Name="idTipoMovimentacao" Type="int" Nullable="false" />
+          <Property Name="dtInicio" Type="datetime" Nullable="false" />
+          <Property Name="dtFim" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="navio">
+          <Key>
+            <PropertyRef Name="idNavio" />
+          </Key>
+          <Property Name="idNavio" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nmNavio" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idStatus" />
+          </Key>
+          <Property Name="idStatus" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nmStatus" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idTipoStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 't2s.dbo.vwMovimentacoes' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwMovimentacoes">
+          <Key>
+            <PropertyRef Name="cliente" />
+            <PropertyRef Name="tipoMovimentacao" />
+          </Key>
+          <Property Name="cliente" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="tipoMovimentacao" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="qtdeMovimentacoes" Type="int" />
+        </EntityType>
+        <Association Name="FK_categoria_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_cliente_container">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_container_navio">
+          <End Role="navio" Type="Self.navio" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="movimentacao" Type="Self.movimentacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="navio">
+              <PropertyRef Name="idNavio" />
+            </Principal>
+            <Dependent Role="movimentacao">
+              <PropertyRef Name="idNavio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_status_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipo_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipoMovimentacao_movimentacao">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="movimentacao" Type="Self.movimentacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="movimentacao">
+              <PropertyRef Name="idTipoMovimentacao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="t2sModelStoreContainer">
+          <EntitySet Name="cliente" EntityType="Self.cliente" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="container" EntityType="Self.container" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="movimentacao" EntityType="Self.movimentacao" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="navio" EntityType="Self.navio" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="status" EntityType="Self.status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vwMovimentacoes" EntityType="Self.vwMovimentacoes" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwMovimentacoes].[cliente] AS [cliente], 
+    [vwMovimentacoes].[tipoMovimentacao] AS [tipoMovimentacao], 
+    [vwMovimentacoes].[qtdeMovimentacoes] AS [qtdeMovimentacoes]
+    FROM [dbo].[vwMovimentacoes] AS [vwMovimentacoes]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_categoria_container" Association="Self.FK_categoria_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="fk_cliente_container" Association="Self.fk_cliente_container">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_container_navio" Association="Self.FK_container_navio">
+            <End Role="navio" EntitySet="navio" />
+            <End Role="movimentacao" EntitySet="movimentacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_status_container" Association="Self.FK_status_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipo_container" Association="Self.FK_tipo_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoMovimentacao_movimentacao" Association="Self.FK_tipoMovimentacao_movimentacao">
+            <End Role="status" EntitySet="status" />
+            <End Role="movimentacao" EntitySet="movimentacao" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="t2sModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cliente">
+          <Key>
+            <PropertyRef Name="idCliente" />
+          </Key>
+          <Property Name="idCliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nmCliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="idClienteContainer" Relationship="Self.fk_cliente_container" FromRole="cliente" ToRole="container" />
+        </EntityType>
+        <EntityType Name="container">
+          <Key>
+            <PropertyRef Name="idContainer" />
+          </Key>
+          <Property Name="idContainer" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idCliente" Type="Int32" Nullable="false" />
+          <Property Name="nmNumeroCntr" Type="String" MaxLength="11" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="idTipo" Type="Int32" Nullable="false" />
+          <Property Name="idStatus" Type="Int32" Nullable="false" />
+          <Property Name="idCategoria" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="idClienteContainer" Relationship="Self.fk_cliente_container" FromRole="container" ToRole="cliente" />
+          <NavigationProperty Name="idCategoriaContainer" Relationship="Self.FK_categoria_container" FromRole="container" ToRole="status" />
+          <NavigationProperty Name="idContainerMovimentacao" Relationship="Self.FK_container_navio" FromRole="container" ToRole="movimentacao" />
+          <NavigationProperty Name="idStatusContainer" Relationship="Self.FK_status_container" FromRole="container" ToRole="status" />
+          <NavigationProperty Name="idTipoContainer" Relationship="Self.FK_tipo_container" FromRole="container" ToRole="status" />
+        </EntityType>
+        <EntityType Name="movimentacao">
+          <Key>
+            <PropertyRef Name="idMovimentacao" />
+          </Key>
+          <Property Name="idMovimentacao" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idContainer" Type="Int32" Nullable="false" />
+          <Property Name="idNavio" Type="Int32" Nullable="false" />
+          <Property Name="idTipoMovimentacao" Type="Int32" Nullable="false" />
+          <Property Name="dtInicio" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="dtFim" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="idContainerMovimentacao" Relationship="Self.FK_container_navio" FromRole="movimentacao" ToRole="container" />
+          <NavigationProperty Name="idStatusTipoMovimentacao" Relationship="t2sModel.FK_tipoMovimentacao_movimentacao1" FromRole="movimentacao" ToRole="status" />
+          <NavigationProperty Name="idNavioMovimentacao" Relationship="t2sModel.FK_container_navio1" FromRole="movimentacao" ToRole="navio" />
+        </EntityType>
+        <EntityType Name="navio">
+          <Key>
+            <PropertyRef Name="idNavio" />
+          </Key>
+          <Property Name="idNavio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nmNavio" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="idNavioMovimentacao" Relationship="t2sModel.FK_container_navio1" FromRole="navio" ToRole="movimentacao" />
+        </EntityType>
+        <EntityType Name="status">
+          <Key>
+            <PropertyRef Name="idStatus" />
+          </Key>
+          <Property Name="idStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nmStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idTipoStatus" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="idCategoriaContainer" Relationship="Self.FK_categoria_container" FromRole="status" ToRole="container" />
+          <NavigationProperty Name="idStatusContainer" Relationship="Self.FK_status_container" FromRole="status" ToRole="container" />
+          <NavigationProperty Name="idTipoContainer" Relationship="Self.FK_tipo_container" FromRole="status" ToRole="container" />
+          <NavigationProperty Name="idStatusTipoMovimentacao" Relationship="t2sModel.FK_tipoMovimentacao_movimentacao1" FromRole="status" ToRole="movimentacao" />
+        </EntityType>
+        <Association Name="fk_cliente_container">
+          <End Role="cliente" Type="Self.cliente" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="cliente">
+              <PropertyRef Name="idCliente" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_categoria_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idCategoria" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_container_navio">
+          <End Role="container" Type="Self.container" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="movimentacao" Type="Self.movimentacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="container">
+              <PropertyRef Name="idContainer" />
+            </Principal>
+            <Dependent Role="movimentacao">
+              <PropertyRef Name="idContainer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_status_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tipo_container">
+          <End Role="status" Type="Self.status" Multiplicity="1" />
+          <End Role="container" Type="Self.container" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="container">
+              <PropertyRef Name="idTipo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="t2sEntities2" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cliente" EntityType="Self.cliente" />
+          <EntitySet Name="container" EntityType="Self.container" />
+          <EntitySet Name="movimentacao" EntityType="Self.movimentacao" />
+          <EntitySet Name="navio" EntityType="Self.navio" />
+          <EntitySet Name="status" EntityType="Self.status" />
+          <AssociationSet Name="fk_cliente_container" Association="Self.fk_cliente_container">
+            <End Role="cliente" EntitySet="cliente" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_categoria_container" Association="Self.FK_categoria_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_container_navio" Association="Self.FK_container_navio">
+            <End Role="container" EntitySet="container" />
+            <End Role="movimentacao" EntitySet="movimentacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_status_container" Association="Self.FK_status_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipo_container" Association="Self.FK_tipo_container">
+            <End Role="status" EntitySet="status" />
+            <End Role="container" EntitySet="container" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tipoMovimentacao_movimentacao1" Association="t2sModel.FK_tipoMovimentacao_movimentacao1">
+            <End Role="status" EntitySet="status" />
+            <End Role="movimentacao" EntitySet="movimentacao" />
+          </AssociationSet>
+          <AssociationSet Name="FK_container_navio1" Association="t2sModel.FK_container_navio1">
+            <End Role="navio" EntitySet="navio" />
+            <End Role="movimentacao" EntitySet="movimentacao" />
+          </AssociationSet>
+          <EntitySet Name="vwMovimentacoes" EntityType="t2sModel.vwMovimentacoes" />
+        </EntityContainer>
+        <Association Name="FK_tipoMovimentacao_movimentacao1">
+          <End Type="t2sModel.status" Role="status" Multiplicity="1" />
+          <End Type="t2sModel.movimentacao" Role="movimentacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="status">
+              <PropertyRef Name="idStatus" />
+            </Principal>
+            <Dependent Role="movimentacao">
+              <PropertyRef Name="idTipoMovimentacao" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_container_navio1">
+          <End Type="t2sModel.navio" Role="navio" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="t2sModel.movimentacao" Role="movimentacao" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="navio">
+              <PropertyRef Name="idNavio" />
+            </Principal>
+            <Dependent Role="movimentacao">
+              <PropertyRef Name="idNavio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vwMovimentacoes">
+          <Key>
+            <PropertyRef Name="cliente" />
+            <PropertyRef Name="tipoMovimentacao" />
+          </Key>
+          <Property Name="cliente" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="tipoMovimentacao" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="qtdeMovimentacoes" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="t2sModelStoreContainer" CdmEntityContainer="t2sEntities2">
+          <EntitySetMapping Name="cliente">
+            <EntityTypeMapping TypeName="t2sModel.cliente">
+              <MappingFragment StoreEntitySet="cliente">
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nmCliente" ColumnName="nmCliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="container">
+            <EntityTypeMapping TypeName="t2sModel.container">
+              <MappingFragment StoreEntitySet="container">
+                <ScalarProperty Name="idContainer" ColumnName="idContainer" />
+                <ScalarProperty Name="idCliente" ColumnName="idCliente" />
+                <ScalarProperty Name="nmNumeroCntr" ColumnName="nmNumeroCntr" />
+                <ScalarProperty Name="idTipo" ColumnName="idTipo" />
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="idCategoria" ColumnName="idCategoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="movimentacao">
+            <EntityTypeMapping TypeName="t2sModel.movimentacao">
+              <MappingFragment StoreEntitySet="movimentacao">
+                <ScalarProperty Name="idMovimentacao" ColumnName="idMovimentacao" />
+                <ScalarProperty Name="idContainer" ColumnName="idContainer" />
+                <ScalarProperty Name="idNavio" ColumnName="idNavio" />
+                <ScalarProperty Name="idTipoMovimentacao" ColumnName="idTipoMovimentacao" />
+                <ScalarProperty Name="dtInicio" ColumnName="dtInicio" />
+                <ScalarProperty Name="dtFim" ColumnName="dtFim" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="navio">
+            <EntityTypeMapping TypeName="t2sModel.navio">
+              <MappingFragment StoreEntitySet="navio">
+                <ScalarProperty Name="idNavio" ColumnName="idNavio" />
+                <ScalarProperty Name="nmNavio" ColumnName="nmNavio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="status">
+            <EntityTypeMapping TypeName="t2sModel.status">
+              <MappingFragment StoreEntitySet="status">
+                <ScalarProperty Name="idStatus" ColumnName="idStatus" />
+                <ScalarProperty Name="nmStatus" ColumnName="nmStatus" />
+                <ScalarProperty Name="idTipoStatus" ColumnName="idTipoStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwMovimentacoes">
+            <EntityTypeMapping TypeName="t2sModel.vwMovimentacoes">
+              <MappingFragment StoreEntitySet="vwMovimentacoes">
+                <ScalarProperty Name="qtdeMovimentacoes" ColumnName="qtdeMovimentacoes" />
+                <ScalarProperty Name="tipoMovimentacao" ColumnName="tipoMovimentacao" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

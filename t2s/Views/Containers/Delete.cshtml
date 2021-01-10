@@ -1,0 +1,63 @@
+﻿@model t2s.Models.container
+
+@{
+    ViewBag.Title = "Deletar";
+}
+
+<h2>Deletar</h2>
+
+<h3>Tem certeza que deseja deletar esse container?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.nmNumeroCntr)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nmNumeroCntr)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idCliente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idClienteContainer.nmCliente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idTipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idTipoContainer.nmStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idStatusContainer.nmStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.idCategoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.idCategoriaContainer.nmStatus)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Deletar" class="btn btn-default" /> |
+            @Html.ActionLink("Voltar para a lista", "Index")
+        </div>
+    }
+</div>
